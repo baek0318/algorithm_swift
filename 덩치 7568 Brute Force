@@ -1,0 +1,43 @@
+//
+//  main.swift
+//  alogorithm
+//
+//  Created by 백승화 on 2020/01/25.
+//  Copyright © 2020 백승화. All rights reserved.
+//
+
+import Foundation
+
+struct Body {
+    var tall : Int = 0
+    var weight : Int = 0
+    var rank : Int = 0
+}
+
+let input = Int(readLine()!)!
+
+var body = Body()
+var count = 0
+var array : [Body] = Array(repeating: body, count: input)
+
+for i in 0..<input {
+    let write = readLine()!
+    let new_write = write.split(separator: " ").map { Int($0)!}
+    array[i].tall = new_write[1]
+    array[i].weight = new_write[0]
+}
+
+for i in 0..<input {
+    for j in 0..<input {
+        if(array[i].tall < array[j].tall && array[i].weight < array[j].weight) {
+            count += 1
+        }
+    }
+    array[i].rank = count+1
+    count = 0
+}
+
+for i in 0..<input {
+    print(array[i].rank, terminator:" ")
+}
+print("\n", terminator: "")
