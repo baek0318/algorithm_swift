@@ -1,0 +1,45 @@
+import Foundation
+
+func processTime(input:()->()) {
+    let start = CFAbsoluteTimeGetCurrent()
+    input()
+    let stop = CFAbsoluteTimeGetCurrent() - start
+    print("걸린시간:\(stop)")
+}
+
+let input = readLine()!
+let input_arr = input.split(separator: " ")
+let num_arr = input_arr.map {Int($0)!}
+let input2 = readLine()!
+let input_arr2 = input2.split(separator: " ")
+var array = input_arr2.map {Int($0)!}
+
+var per_arr = Array(repeating: 0, count: 3)
+var result_arr : [Int] = []
+
+var a = 0
+var b = 0
+
+processTime {
+    for i in array {
+        per_arr[0] = i
+        array.remove(at: a)
+        for j in array {
+            per_arr[1] = j
+            array.remove(at: b)
+            for k in array {
+                per_arr[2] = k
+                let result = per_arr.reduce(0, { $0 + $1 })
+                result_arr.append(result)
+            }
+            array.insert(j, at: b)
+            b += 1
+        }
+        b = 0
+        array.insert(i, at: a)
+        a += 1
+    }
+    let final_arr = result_arr.filter { $0 <= num_arr[1] }
+    let final = final_arr.max()!
+    print(final)
+}
