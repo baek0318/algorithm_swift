@@ -1,0 +1,42 @@
+//
+//  main.swift
+//  alogorithm
+//
+//  Created by 백승화 on 2020/01/25.
+//  Copyright © 2020 백승화. All rights reserved.
+//
+
+import Foundation
+
+func processTime(input:()->()) {
+    let start = CFAbsoluteTimeGetCurrent()
+    input()
+    let stop = CFAbsoluteTimeGetCurrent() - start
+    print("걸린시간:\(stop)")
+}
+
+let input = Int(readLine()!)!
+var array : [Int] = []
+var result = 0
+
+processTime {
+    if input <= 10 {
+        print(0)
+    }
+    else {
+        for i in 10..<input {
+            array.append(i)
+            for j in String(i){
+                array.append(Int(String(j))!)
+                
+            }
+            if array.reduce(0, { $0 + $1 }) == input {
+                result = i
+                break
+            }
+            array.removeAll()
+        }
+        print(result)
+    }
+
+}
