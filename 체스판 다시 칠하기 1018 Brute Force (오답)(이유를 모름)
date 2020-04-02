@@ -1,0 +1,96 @@
+//
+//  main.swift
+//  algorithm
+//
+//  Created by 백승화 on 2020/01/25.
+//  Copyright © 2020 백승화. All rights reserved.
+//
+
+import Foundation
+
+let input = readLine()!
+let re_input = input.split(separator: " ").map{Int($0)!}
+
+var array = [[String]]()
+var min = 2501
+var count = 0
+for _ in 0..<re_input[0] {
+    let arr_input = readLine()!
+    var arr = [String]()
+    for i in arr_input {
+        arr.append(String(i))
+    }
+    array.append(arr)
+}
+
+func white(sub_row:Int, sub_col:Int) {
+    for row in sub_row..<8+sub_row {
+        for col in sub_col..<8+sub_col {
+              if (row-sub_row)%2 == 0 {
+                  if (col-sub_col)%2 == 0 {
+                      if array[row][col] != "W"{
+                          count += 1
+                      }
+                  }else {
+                      if array[row][col] != "B"{
+                          count += 1
+                      }
+                  }
+              }else {
+                  if (col-sub_col)%2 == 0 {
+                      if array[row][col] != "B"{
+                          count += 1
+                      }
+                  }else {
+                      if array[row][col] != "W"{
+                          count += 1
+                      }
+                  }
+              }
+        }
+    }
+}
+
+func black(sub_row:Int, sub_col:Int) {
+    for row in sub_row..<8+sub_row {
+        for col in sub_col..<8+sub_col {
+            if (row-sub_row)%2 == 0 {
+                if (col-sub_col)%2 == 0 {
+                    if array[row][col] != "B"{
+                        count += 1
+                    }
+                }else {
+                    if array[row][col] != "W"{
+                        count += 1
+                    }
+                }
+            }else {
+                if (col-sub_col)%2 == 0 {
+                    if array[row][col] != "W"{
+                        count += 1
+                    }
+                }else {
+                    if array[row][col] != "B"{
+                        count += 1
+                    }
+                }
+            }
+        }
+    }
+}
+
+for sub_row in 0...re_input[0]-8 {
+    for sub_col in 0...re_input[1]-8 {
+        if array[sub_row][sub_col] == "W"{
+            white(sub_row: sub_row, sub_col: sub_col)
+        }
+        else {
+            black(sub_row: sub_row, sub_col: sub_col)
+        }
+        if min > count{
+            min = count
+        }
+        count = 0
+    }
+}
+print(min)
