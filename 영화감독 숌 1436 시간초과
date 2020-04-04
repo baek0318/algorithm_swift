@@ -1,0 +1,39 @@
+//
+//  main.swift
+//  algorithm
+//
+//  Created by 백승화 on 2020/01/25.
+//  Copyright © 2020 백승화. All rights reserved.
+//
+
+import Foundation
+
+let input = Int(readLine()!)!
+var i = 665
+var count = 0
+var new_str = ""
+
+func processTime(input:()->()) {
+    let start = CFAbsoluteTimeGetCurrent()
+    input()
+    let stop = CFAbsoluteTimeGetCurrent() - start
+    print("걸린시간:\(stop)")
+}
+processTime {
+    while true {
+        i += 1
+        let array = Array(String(i))
+        for index in 0..<array.count  {
+            if array[index] == "6" {
+                if String(array.suffix(from: index)).hasPrefix("666") {
+                    count += 1
+                    break
+                }
+            }
+        }
+        if count == input {
+            break
+        }
+    }
+    print(i)
+}
