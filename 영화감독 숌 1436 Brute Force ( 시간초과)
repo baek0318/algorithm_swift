@@ -11,29 +11,11 @@ import Foundation
 let input = Int(readLine()!)!
 var i = 665
 var count = 0
-var new_str = ""
 
-func processTime(input:()->()) {
-    let start = CFAbsoluteTimeGetCurrent()
-    input()
-    let stop = CFAbsoluteTimeGetCurrent() - start
-    print("걸린시간:\(stop)")
-}
-processTime {
-    while true {
-        i += 1
-        let array = Array(String(i))
-        for index in 0..<array.count  {
-            if array[index] == "6" {
-                if String(array.suffix(from: index)).hasPrefix("666") {
-                    count += 1
-                    break
-                }
-            }
-        }
-        if count == input {
-            break
-        }
+while input != count {
+    i+=1
+    if String(i).contains("666") {
+        count+=1
     }
-    print(i)
 }
+print(i)
