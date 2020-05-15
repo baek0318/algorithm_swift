@@ -1,0 +1,28 @@
+import Foundation
+
+var arr : [Int] = []
+var sum = 0
+var a = 0
+var b = 0
+
+for _ in 0...8{ arr.append(Int(readLine()!)!) }
+
+for i in arr {sum += i}
+
+for i in 0...7{
+    for j in i+1...8{
+        var result = 0
+        result = sum - (arr[i] + arr[j])
+        if result == 100 {
+            a = arr[i]
+            b = arr[j]
+            break
+        }
+        
+    }
+}
+
+arr.sort()
+for i in arr {
+    if i != a && i != b { print(i) }
+}
