@@ -1,0 +1,60 @@
+import Foundation
+
+let input = readLine()!.split(separator: " ").map{Int($0)!}
+
+var graph = Array(repeating: Array(repeating: 0, count: input[0]+1), count: input[0]+1)
+
+var check = Array(repeating: false, count: input[0]+1)
+var queue : [Int] = []
+var result_dfs : [Int] = []
+var result_bfs : [Int] = []
+
+for _ in 1...input[1] {
+    let link = readLine()!.split(separator: " ").map{Int($0)!}
+    graph[link[0]][link[1]] = 1
+    graph[link[1]][link[0]] = 1
+}
+
+func dfs(start : Int) {
+    if check[start] {return}
+    else {check[start] = true; result_dfs.append(start)}
+    
+    for i in 1...input[0] {
+        if(graph[start][i] == 1) {dfs(start: i)}
+    }
+}
+
+func bfs(start : Int) {
+    queue.append(start)
+    result_bfs.append(start)
+    check[start] = false
+    
+    while(true) {
+        if queue.count == 0 { break }
+        
+        let node = queue.removeFirst()
+        
+        for i in 1...input[0] {
+            if graph[node][i] == 1 && check[i] == true{
+                queue.append(i)
+                result_bfs.append(i)
+                check[i] = false
+            }
+        }
+    }
+    
+}
+
+
+dfs(start: input[2])
+bfs(start: input[2])
+for i in 0..<result_bfs.count {
+    print(result_dfs[i], terminator: "")
+    print(" ", terminator: "")
+}
+print("")
+for i in 0..<result_bfs.count {
+    print(result_bfs[i], terminator: "")
+    print(" ", terminator: "")
+}
+print("")
