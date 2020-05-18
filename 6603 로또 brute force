@@ -1,0 +1,48 @@
+import Foundation
+
+var input_arr : [[Int]] = []
+var result : [[Int]] = []
+var array : [Int] = []
+
+while (true) {
+    let input = readLine()!
+    if input == "0" {break}
+    let arr = input.split(separator: " ").map {Int($0)!}
+    input_arr.append(arr)
+}
+
+func lotto(count : Int, arr : [Int]) {
+    var new_arr = arr
+    if arr.count == 0 {return}
+    if count >= 6 {return}
+    
+    for i in 0..<arr.count {
+        array.append(arr[i])
+        new_arr.removeFirst()
+        lotto(count: count+1, arr: new_arr)
+        if(array.count == 6) {result.append(array)}
+        array.removeLast()
+    }
+}
+
+for i in 0..<input_arr.count {
+    result.append([input_arr[i].first!]) // 테스트케이스 갯수를 입력
+    input_arr[i].remove(at: 0) // 테스트 케이스 넣은것을 삭제
+    lotto(count: 0, arr: input_arr[i])
+}
+
+for i in 0..<result.count {
+    if i == 0 {
+        
+    }
+    else if i != 0 && result[i].count == 1{
+        print("")
+    }
+    else {
+        for j in 0..<result[i].count {
+            print(result[i][j], terminator : "")
+            print(" ", terminator : "")
+        }
+        print("")
+    }
+}
