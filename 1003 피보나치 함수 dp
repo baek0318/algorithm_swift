@@ -1,0 +1,33 @@
+import Foundation
+
+func arrPlus(_ arr1 : [Int], _ arr2 : [Int]) -> [Int] {
+    let pos_0 = arr1[0] + arr2[0]
+    let pos_1 = arr1[1] + arr2[1]
+    return [pos_0, pos_1]
+}
+
+var result : [Int] = []
+let input = Int(readLine()!)!
+var test : [Int] = []
+var cnt : [[Int]] = Array(repeating: Array(repeating: 0, count: 2), count: 41)
+
+for _ in 0..<input {
+    let put = Int(readLine()!)!
+    test.append(put)
+}
+
+func fib(_ x : Int) -> [Int] {
+    if x == 0 {return [1, 0]}
+    if x == 1 {return [0, 1]}
+    if cnt[x][0] != 0 && cnt[x][1] != 0 {return cnt[x]}
+    
+    result = arrPlus(fib(x-1), fib(x-2))
+    cnt[x] = result
+    
+    return result
+}
+
+for i in test {
+    let arr = fib(i)
+    print("\(arr[0]) \(arr[1])")
+}
