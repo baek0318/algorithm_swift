@@ -1,0 +1,19 @@
+import Foundation
+
+let input = Int(readLine()!)!
+
+var dp : [Int] = Array(repeating: 0, count: 1100000)
+var result : Int = 0
+
+func sum(_ x : Int) -> Int {
+    if x == 1 {return 1}
+    if x == 2 {return 2}
+    if dp[x] != 0 {return dp[x]}
+    
+    result = (sum(x-1) + sum(x-2))%15746
+    dp[x] = result
+    
+    return result
+}
+
+print(sum(input))
