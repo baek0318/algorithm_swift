@@ -1,0 +1,28 @@
+import Foundation
+
+let count = Int(readLine()!)!
+var stair = [Int]()
+var dp = Array(repeating: 0, count: count)
+
+for _ in 0..<count {
+    let input = Int(readLine()!)!
+    stair.append(input)
+}
+
+if count == 1 {
+    dp[0] = stair[0]
+}else if count == 2 {
+    dp[0] = stair[0]
+    dp[1] = max(dp[0]+stair[1], stair[1])
+}else if count >= 3{
+    dp[0] = stair[0]
+    dp[1] = max(dp[0]+stair[1], stair[1])
+    dp[2] = max(stair[1]+stair[2], dp[0]+stair[2])
+}
+
+if count > 3 {
+    for i in 3..<count {
+        dp[i] = max(dp[i-2]+stair[i], dp[i-3]+stair[i-1]+stair[i])
+    }
+}
+print(dp[count-1])
