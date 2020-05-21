@@ -1,0 +1,27 @@
+import Foundation
+
+let input = Int(readLine()!)!
+var rgbcost = Array(repeating: Array(repeating: 0, count: 3), count: 1001)
+var dp = Array(repeating: Array(repeating: 0, count: 3), count: 1001)
+var mini = 10000000
+
+for i in 1...input {
+    let arr = readLine()!.split(separator: " ").map{Int($0)!}
+    rgbcost[i] = arr
+}
+
+dp[0][0] = rgbcost[0][0]
+dp[0][1] = rgbcost[0][1]
+dp[0][2] = rgbcost[0][2]
+
+for i in 1...input {
+    dp[i][0] = min(dp[i-1][1], dp[i-1][2]) + rgbcost[i][0]
+    dp[i][1] = min(dp[i-1][0], dp[i-1][2]) + rgbcost[i][1]
+    dp[i][2] = min(dp[i-1][1], dp[i-1][0]) + rgbcost[i][2]
+}
+
+for i in 0...2 {
+    if dp[input][i] < mini {mini = dp[input][i]}
+}
+
+print(mini)
