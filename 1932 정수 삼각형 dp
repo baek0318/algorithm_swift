@@ -1,0 +1,29 @@
+import Foundation
+
+let n = Int(readLine()!)!
+
+var triangle = [[Int]]()
+var dp = [[Int]]()
+
+for _ in 0..<n {
+    let input = readLine()!.split(separator: " ").map{Int($0)!}
+    triangle.append(input)
+    dp.append(input)
+}
+
+for i in 1...triangle.count-1 {
+    for j in 0...i {
+        if i == 1 {
+            dp[i][j] += dp[i-1][0]
+        }
+        else if j == 0 {
+            dp[i][j] += dp[i-1][j]
+        }else if j == i{
+            dp[i][j] += dp[i-1][j-1]
+        }else {
+            dp[i][j] += max(dp[i-1][j-1], dp[i-1][j])
+        }
+    }
+}
+
+print(dp[n-1].max()!)
