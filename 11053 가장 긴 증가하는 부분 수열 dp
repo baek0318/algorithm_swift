@@ -1,0 +1,18 @@
+import Foundation
+
+let input = Int(readLine()!)!
+var arr = readLine()!.split(separator: " ").map{Int($0)!}
+var dp = Array(repeating: 0, count: 1001)
+
+dp[0] = 1
+
+for i in 1..<arr.count {
+    dp[i] = 1 //arr[i] > arr[j] 이 조건에 부합하지 않는 경우에도 1번은 개수한것으로 치기 때문에 필요
+    for j in 0...i {
+        if arr[i] > arr[j] && dp[i] <= dp[j]{
+            dp[i] = dp[j] + 1 
+        }
+    }
+}
+
+print(dp.max()!)
