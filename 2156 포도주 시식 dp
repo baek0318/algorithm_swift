@@ -1,0 +1,23 @@
+import Foundation
+
+let input = Int(readLine()!)!
+var dp = Array(repeating: 0, count: 10002)
+var arr = Array(repeating: 0, count: input+1)
+
+for i in 1...input {
+    arr[i] = Int(readLine()!)!
+}
+
+dp[1] = arr[1]
+if input >= 2 {
+    dp[2] = arr[1]+arr[2]
+}
+
+if input >= 3 {
+    for i in 3...input {
+        dp[i] = max(arr[i]+dp[i-2], arr[i]+arr[i-1]+dp[i-3])
+        dp[i] = max(dp[i], dp[i-1])
+    }
+}
+
+print(dp.max()!)
