@@ -1,0 +1,27 @@
+import Foundation
+
+let input = Int(readLine()!)!
+let arr = readLine()!.split(separator:" ").map{Int($0)!}
+var dp = Array(repeating : 0, count : 1001)
+var dp2 = Array(repeating : 0, count : 1001)
+dp[0] = 1
+dp2[input-1]=1
+for i in 1..<input {
+  dp[i] = 1
+  dp2[input-1-i]=1
+  for j in 0...i{
+    if arr[i]>arr[j] && dp[i]<=dp[j]{
+      dp[i] = dp[j]+1 
+    }
+  }
+  for k in (input-1-i..<input).reversed(){
+    if arr[input-1-i]>arr[k] && dp2[input-1-i]<=dp2[k]{
+      dp2[input-1-i] = dp2[k]+1
+    }
+  }
+}
+
+for i in 0..<input {
+  dp[i]+=dp2[i]-1
+}
+print(dp.max()!)
