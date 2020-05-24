@@ -1,0 +1,27 @@
+import Foundation
+
+let input = Int(readLine()!)!
+var dp = Array(repeating: 0, count: 101)
+var arr = [[Int]]()
+
+for _ in 0..<input {
+    let in_arr = readLine()!.split(separator : " ").map{Int($0)!}
+    arr.append(in_arr)
+}
+
+arr.sort { (arr1, arr2) -> Bool in
+    return arr1[0] < arr2[0]
+}
+
+dp[0] = 1
+
+for i in 1..<input {
+    dp[i] = 1
+    for j in 0...i {
+        if arr[i][1] > arr[j][1] && dp[i] <= dp[j] {
+            dp[i] = dp[j]+1
+        }
+    }
+}
+
+print(input-dp.max()!)
