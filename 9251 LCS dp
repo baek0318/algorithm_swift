@@ -1,0 +1,24 @@
+import Foundation
+
+let str1 = readLine()!
+let str2 = readLine()!
+var dp = Array(repeating: Array(repeating: 0, count:str2.count+1),count: str1.count+1)
+var arr1 = [String]()
+var arr2 = [String]()
+var maximum = 0
+for i in str1 { arr1.append(String(i)) } //문자열 파싱하기 쉽지않아서 배열로 재선언 해주었다
+for i in str2 { arr2.append(String(i)) }
+
+
+for i in 1...str1.count {
+    for j in 1...str2.count {
+        if arr1[i-1] == arr2[j-1] {
+            dp[i][j] = dp[i-1][j-1] + 1
+        }else {
+            dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+        }
+        if maximum < dp[i][j] {maximum = dp[i][j]}
+    }
+}
+
+print(maximum)
