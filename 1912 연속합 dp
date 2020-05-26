@@ -1,0 +1,25 @@
+import Foundation
+
+let test = Int(readLine()!)!
+let arr = readLine()!.split(separator: " ").map{Int($0)!}
+var dp = Array(repeating: 0, count: 100001)
+var count = 0
+dp[0] = arr[0]
+for i in arr {
+    if i < 0 {
+        count += 1
+    }
+}
+if count == arr.count {
+    print(arr.max()!)
+}else {
+    for i in 1..<arr.count {
+        
+        if (arr[i] < 0 && dp[i-1]+arr[i] < 0){
+            dp[i] = 0
+        }else {
+            dp[i] = dp[i-1] + arr[i]
+        }
+    }
+    print(dp.max()!)
+}
