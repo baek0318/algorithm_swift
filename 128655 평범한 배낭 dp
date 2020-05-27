@@ -1,0 +1,31 @@
+import Foundation
+
+let input = readLine()!.split(separator: " ").map{Int($0)!}
+let testcase = input[0]
+let max_weight = input[1]
+var dp = Array(repeating: Array(repeating: 0, count: max_weight+2), count: testcase)
+var arr = [[Int]]()
+
+for _ in 0..<testcase {
+    arr.append(readLine()!.split(separator: " ").map{Int($0)!})
+}
+
+arr.sort { $0[0] < $1[0] }
+
+for i in 1...max_weight {
+    if i >= arr[0][0]{
+        dp[0][i] = arr[0][1]
+    }
+}
+
+for i in 1..<testcase {
+    for j in 1...max_weight {
+        dp[i][j] = dp[i-1][j]
+        if j >= arr[i][0]{
+            dp[i][j] = max(arr[i][1] + dp[i-1][j-arr[i][0]], dp[i-1][j])
+        }
+    }
+}
+
+//print(dp)
+print(dp[testcase-1].max()!)
