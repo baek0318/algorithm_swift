@@ -1,0 +1,26 @@
+import Foundation
+
+let n = Int(readLine()!)!
+var time = [[Int]]()
+var result = [[Int]]()
+for _ in 0..<n {
+    time.append(readLine()!.split(separator: " ").map{Int($0)!})
+}
+var end = 0
+var count = 0
+time.sort {
+    if $0[1] == $1[1]{
+        return $0[0] < $1[0]
+    }else {
+        return $0[1] < $1[1]
+    }
+}
+
+for i in time {
+    if end <= i[0]{
+        end = i[1]
+        count += 1
+    }
+}
+
+print(count)
