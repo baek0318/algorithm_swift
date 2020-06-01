@@ -1,0 +1,67 @@
+import Foundation
+
+let n = Int(readLine()!)!
+var s = [[Int]]()
+var visited = Array(repeating: false, count: n)
+var visited2 = Array(repeating: false, count: n)
+var arr = [Int]()
+var arr2 = [Int]()
+var arr2_1 = [Int]()
+var arr3 = [Int]()
+var result1 = 0
+var result3 = 0
+var result = [Int]()
+
+for _ in 0..<n {
+    let input = readLine()!.split(separator: " ").map{Int($0)!}
+    s.append(input)
+}
+
+func halfDfs(_ arr : [Int], _ start : Int, _ end : Int) -> Int{
+    if end == 2 {
+        result3 += (s[arr3[0]][arr3[1]]+s[arr3[1]][arr3[0]])
+        return result3
+    }
+    for i in start..<arr.count {
+        if visited2[i] {continue}
+        visited2[i] = true
+        arr3.append(arr[i])
+        halfDfs(arr, i, end+1)
+        visited2[i] = false
+        arr3.removeLast()
+    }
+    return result3
+}
+
+func dfs(_ count : Int){
+    if count == n {
+        for i in 0..<arr.count/2 {
+            arr2_1.append(arr[i])
+        }
+        for i in arr.count/2..<arr.count {
+            arr2.append(arr[i])
+        }
+
+        result1 = halfDfs(arr2_1, 0, 0)
+        result3 = 0
+        result3 = halfDfs(arr2, 0, 0)
+        result.append(abs(result1-result3))
+        result3 = 0
+        arr2.removeAll()
+        arr2_1.removeAll()
+
+        return
+    }
+    
+    for i in 0..<n {
+        if visited[i] {continue}
+        visited[i] = true
+        arr.append(i)
+        dfs(count+1)
+        arr.removeLast()
+        visited[i] = false
+    }
+}
+
+dfs(0)
+print(result.min()!)
