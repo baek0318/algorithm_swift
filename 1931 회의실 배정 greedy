@@ -24,3 +24,24 @@ for i in time {
 }
 
 print(count)
+
+/*
+let maximum = time.max{$0[1] < $1[1]}![1]
+var dp = Array(repeating: 0, count: maximum+1)
+var best = 0
+
+for i in time {
+    if i[0] == 0 {
+        dp[i[1]] = 1
+    }
+    if i[0] >= 1 {
+        for j in 0...(i[0]-1){
+            if best <= dp[j]{best = dp[j]}
+        }
+        dp[i[1]] = max(best + 1, dp[i[1]])
+        best = 0
+    }
+}
+
+print(dp.max()!)
+*/
