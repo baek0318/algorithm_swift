@@ -1,0 +1,33 @@
+import Foundation
+
+let input = readLine()!
+var str : String = ""
+var arr = [String]()
+var plus = [Int]()
+var cal = 0
+var result = 0
+
+for i in input {
+    if i == "-" || i == "+"{
+        arr.append(str)
+        str = ""
+        arr.append(String(i))
+    }else {
+        str += String(i)
+    }
+}
+arr.append(str)
+for i in 0..<arr.count {
+    if arr[i] == "-"{
+        plus.append(cal)
+        cal = 0
+    }else if arr[i] != "+" {
+        cal += Int(arr[i])!
+    }
+}
+plus.append(cal)
+result = plus[0]
+for i in 1..<plus.count {
+    result -= plus[i]
+}
+print(result)
