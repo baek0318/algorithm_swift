@@ -1,0 +1,59 @@
+import Foundation
+
+let n = Int(readLine()!)!
+var paper = [[Int]]()
+var temp = [Int]()
+var white = 0
+var black = 0
+var result = ""
+
+for _ in 0..<n {
+    let in_paper = readLine()!
+    for i in in_paper {
+        temp.append(Int(String(i))!)
+    }
+    paper.append(temp)
+    temp.removeAll()
+}
+
+
+func divide(_ x : Int, _ y : Int, _ halfsize : Int){
+    if halfsize == 0 { return}
+    //분활된 네모안에서 검은색과 흰색의 갯수를 체크
+    var halfsize = halfsize
+    for i in x...x+halfsize-1 {
+        for j in y...y+halfsize-1 {
+            if paper[i][j] == 1 {
+                black += 1
+            }else {
+                white += 1
+            }
+        }
+    }
+    
+    if halfsize < n && black == halfsize*halfsize {
+        black = 0
+        white = 0
+        result += "1"; return
+    }else if halfsize < n && white == halfsize*halfsize {
+        black = 0
+        white = 0
+        result += "0"; return
+    }else if halfsize == n && black == halfsize*halfsize {
+        result += "1"; return
+    }else if halfsize == n && white == halfsize*halfsize {
+        result += "0"; return
+    }
+    black = 0
+    white = 0
+    halfsize = halfsize/2
+    result += "(" //한번 나눠질때마다 괄호를 쳐야하기에 작성
+    divide(x, y, halfsize)
+    divide(x, y+halfsize, halfsize)
+    divide(x+halfsize, y, halfsize)
+    divide(x+halfsize, y+halfsize, halfsize)
+    result += ")" //위에서 열어주 괄호를 한번 분활이 끝난 다음에 닫아준다
+}
+
+divide(0, 0, n)
+print(result)
