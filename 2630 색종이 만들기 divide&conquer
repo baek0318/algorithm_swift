@@ -1,0 +1,51 @@
+import Foundation
+
+let n = Int(readLine()!)!
+var paper = [[Int]]()
+var white = 0
+var blue = 0
+var result_blue = 0
+var result_white = 0
+
+for _ in 0..<n {
+    paper.append(readLine()!.split(separator: " ").map{Int($0)!})
+}
+
+
+func divide(_ x : Int, _ y : Int, _ halfsize : Int){
+    if halfsize == 0 { return}
+    //분활된 네모안에서 파란색과 흰색의 갯수를 체크
+    var halfsize = halfsize
+    for i in x...x+halfsize-1 {
+        for j in y...y+halfsize-1 {
+            if paper[i][j] == 1 {
+                blue += 1
+            }else {
+                white += 1
+            }
+        }
+    }
+    if blue == halfsize*halfsize{
+        //네모 안에 모두 파란색이라면 파란색 갯수를 +1
+        blue = 0
+        white = 0
+        result_blue += 1; return
+    }
+    else if white == halfsize*halfsize{
+        //네모 안에 모두 흰색이라면 흰색 갯수를 +1
+        blue = 0
+        white = 0
+        result_white += 1; return
+    }
+    blue = 0
+    white = 0
+    halfsize = halfsize/2
+    divide(x, y, halfsize)
+    divide(x, y+halfsize, halfsize)
+    divide(x+halfsize, y, halfsize)
+    divide(x+halfsize, y+halfsize, halfsize)
+}
+
+divide(0, 0, n)
+print(result_white)
+print(result_blue)
