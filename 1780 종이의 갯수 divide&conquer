@@ -1,0 +1,64 @@
+import Foundation
+
+let k = Int(readLine()!)!
+var paper = [[Substring]]()
+var zero = 0
+var one = 0
+var mOne = 0
+
+var result_zero = 0
+var result_one = 0
+var result_mOne = 0
+
+for _ in 0..<k {
+    paper.append(readLine()!.split(separator: " "))
+}
+
+func divide (_ x : Int, _ y : Int, _ divideSize : Int){
+    var divideSize = divideSize
+    if divideSize == 0 {return}
+    for i in x..<x+divideSize {
+        for j in y..<y+divideSize {
+            if paper[i][j] == "0" {
+                zero += 1
+            }
+            else if paper[i][j] == "1" {
+                one += 1
+            }
+            else {
+                mOne += 1
+            }
+        }
+    }
+    
+    if zero == divideSize*divideSize {
+        zero = 0; one = 0; mOne = 0
+        result_zero += 1; return
+    }
+    else if one == divideSize*divideSize {
+        zero = 0; one = 0; mOne = 0
+        result_one += 1; return
+    }
+    else if mOne == divideSize*divideSize {
+        zero = 0; one = 0; mOne = 0
+        result_mOne += 1; return
+    }
+    
+    zero = 0; one = 0; mOne = 0
+    divideSize = divideSize/3
+    
+    divide(x, y, divideSize)
+    divide(x+divideSize, y, divideSize)
+    divide(x+divideSize+divideSize, y, divideSize)
+    divide(x, y+divideSize, divideSize)
+    divide(x+divideSize, y+divideSize, divideSize)
+    divide(x+divideSize+divideSize, y+divideSize, divideSize)
+    divide(x, y+divideSize+divideSize, divideSize)
+    divide(x+divideSize, y+divideSize+divideSize, divideSize)
+    divide(x+divideSize+divideSize, y+divideSize+divideSize, divideSize)
+}
+
+divide(0, 0, k)
+
+print("\(result_mOne)\n\(result_zero)\n\(result_one)")
+
