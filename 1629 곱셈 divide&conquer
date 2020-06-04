@@ -1,0 +1,25 @@
+import Foundation
+
+let input = readLine()!.split(separator: " ").map{Int($0)!}
+let a = input[0]
+let b = input[1]
+let c = input[2]
+var result : CLong = 1
+var temp : CLong = 1
+
+func divide(_ n : Int) -> CLong{
+    
+    if n == 1 {
+        return a%c
+    }
+    else {
+        temp = divide(n/2)
+        if n%2 == 1 {
+            return ((temp*temp)%c*a)%c
+        }else {
+            return (temp*temp)%c
+        }
+    }
+}
+
+print(divide(b))
