@@ -1,0 +1,72 @@
+import Foundation
+
+var arr = [Int64]()
+var result = [Int64]()
+var max : Int64 = 0
+var min : Int64 = 0
+var tree = [Int64]()
+
+//tree에 값을 집어넣는 함수 단 두 개의 수 중에서 제일 작은 인덱스가 트리에 들어가야한다
+func treeInit(_ arr : ArraySlice<Int64>,_ node : Int,_ start : Int64,_ end : Int64) {
+    if start == end {
+        tree[node] = Int64(start)
+    }else {
+        treeInit(arr, 2*node, start, (start+end)/2)
+        treeInit(arr, 2*node+1, (start+end)/2+1, end)
+        if arr[Int(tree[2*node])] > arr[Int(tree[2*node+1])] {
+            min = tree[2*node+1]
+        }else {
+            min = tree[2*node]
+        }
+        tree[node] = min
+    }
+}
+
+//범위내의 최소 인덱스를 구하는 함수
+func minIndex(_ arr : ArraySlice<Int64>, _ node : Int, _ start : Int64, _ end : Int64, _ left : Int64, _ right : Int64) -> Int64 {
+    if start > right || left > end {
+        return 0
+    }else if start >= left && right >= end {
+        return tree[node]
+    }
+    let leftMin = minIndex(arr, node*2, start, (start+end)/2, left, right)
+    let rightMin = minIndex(arr, node*2+1, (start+end)/2+1, end, left, right)
+    
+    if leftMin == 0 {return rightMin}
+    else if rightMin == 0 {return leftMin}
+    else {return arr[Int(leftMin)] > arr[Int(rightMin)] ? rightMin : leftMin}
+}
+
+//최대 넓이를 구하는 함수
+func largest(_ arr : ArraySlice<Int64>, _ node : Int, _ start : Int, _ end : Int) -> Int64 {
+    
+    let index = minIndex(arr, 1, 1, Int64(arr.count), Int64(start), Int64(end))
+    var area = ((end - start)+1)*Int(arr[Int(index)]) //최대 넓이 구하는 함수
+
+    if start<=index-1 {
+        let area1 = largest(arr, 1, start, Int(index-1))
+        if area1 > area { area = Int(area1) }
+    }
+    if end>=index+1 {
+        let area1 = largest(arr, 1, Int(index+1), end)
+        if area1 > area { area = Int(area1)}
+    }
+    
+    return Int64(area)
+}
+
+while true {
+    let input = readLine()!.split(separator: " ").map{Int64($0)!}
+    if input[0] == 0 {break}
+    //0이 아닌 경우
+    let n = input[0]
+    let arr = input[1..<input.endIndex]
+    let h = ceil(log2(Double(n)))
+    tree = Array(repeating: 0, count: Int(pow(2, h+1))) //트리 공부 다시 진행하자
+    
+    treeInit(arr, 1, 1, n)
+    let max = largest(arr, Int(tree[1]), 1, Int(n))
+    result.append(max)
+}
+
+for i in result { print(i) }
