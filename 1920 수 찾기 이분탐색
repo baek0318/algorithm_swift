@@ -1,0 +1,33 @@
+import Foundation
+
+let n = Int(readLine()!)!
+var arr1 = readLine()!.split(separator: " ").map{Int($0)!}
+let m = Int(readLine()!)!
+var arr2 = readLine()!.split(separator: " ").map{Int($0)!}
+
+arr1.sort()
+
+var result = [Int]()
+
+func search(_ num : Int, _ node : Int) -> Int {
+    var start = 0
+    var end = arr1.count-1
+    
+    while end-start >= 0 {
+        var mid = (start+end)/2
+        
+        if arr1[mid] == num {
+            return 1
+        }
+        else if arr1[mid] > num {
+            end = mid-1
+        }else if arr1[mid] < num {
+            start = mid+1
+        }
+    }
+    return 0
+}
+
+for i in arr2 {
+    print(search(i, 1))
+}
