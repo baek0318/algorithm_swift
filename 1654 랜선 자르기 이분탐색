@@ -1,0 +1,40 @@
+import Foundation
+
+let input = readLine()!.split(separator: " ").map{Int64($0)!}
+let k = input[0]
+let n = input[1]
+var arr = Array(repeating: 0, count: Int(k))
+for i in 0..<k {arr[Int(i)] = Int(readLine()!)!}
+
+var high : Int64 = Int64(arr.max()!)
+var low : Int64 = 1
+var ans : Int64 = 0
+var answer : Int64 = 0
+
+func cal(_ len : Int64) -> Int64 {
+    ans = 0
+    for i in arr {
+        ans += Int64(i)/len
+    }
+    return ans
+}
+
+func findLength() {
+    
+    while low <= high {
+        let mid : Int64 = (high+low)/2
+        let result = cal(Int64(mid))
+        if result >= n {
+            low = mid+1
+            if mid > answer {
+                answer = mid    //이부분에서 많이 헤매었다 여기서 최대길이를 구하기 때문에 mid 값이 answer보다 클경우에만 값을 바꿔주면 된다
+            }
+        }
+        else {
+            high = mid-1
+        }
+    }
+
+}
+findLength()
+print(answer)
