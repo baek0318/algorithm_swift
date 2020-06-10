@@ -1,0 +1,37 @@
+import Foundation
+
+let input = readLine()!.split(separator: " ").map{Int64($0)!}
+let n = input[0]
+let m = input[1]
+let woods = readLine()!.split(separator: " ").map{Int64($0)!}
+
+var high : Int64 = woods.max()!
+var low : Int64 = 1
+var sum : Int64 = 0
+var answer : Int64 = 0
+
+func cal(_ height : Int64) -> Int64 {
+    sum = 0
+    for i in woods {
+        let diff = Int64(i) - height
+        if diff >= 0 {
+            sum += diff
+        }
+    }
+    return sum
+}
+
+while low <= high {
+    
+    let mid : Int64 = (high+low)/2
+    let result = cal(mid)
+    if result >= m {
+        low = mid+1
+        if mid > answer {
+            answer = mid
+        }
+    }else {
+        high = mid-1
+    }
+}
+print(answer)
