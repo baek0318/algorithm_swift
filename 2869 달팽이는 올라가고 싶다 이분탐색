@@ -1,0 +1,11 @@
+import Foundation
+
+let input = readLine()!.split(separator: " ").map{Int64($0)!}
+let a : Int64 = input[0]
+let b : Int64 = input[1]
+let v : Int64 = input[2]
+
+//사실상 달팽이가 올라가는 일수는 v/(a-b)가 되는데 마지막 날에는 안 미끌어 지니깐 (v-b)/(a-b)를 해주어야 한다
+//근데 딱 나누어 떨어지면 일수에 +1일 할 필요가 없는데 안 나누어 떨어지면 +1을 해주어야 한다
+//그래서 미리 1을 뺴주면 다 1씩 더해주면 되기 때문에 (v-b-1)/(a-b)가 나오게 된다
+print((v-b-1)/(a-b)+1)
