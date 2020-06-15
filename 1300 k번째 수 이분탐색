@@ -1,0 +1,23 @@
+import Foundation
+
+let n = Int64(readLine()!)!
+let k = Int64(readLine()!)!
+
+var left : Int64 = 1
+var right = k
+var ans : Int64 = 0
+
+while left<=right {
+    var cnt : Int64 = 0
+    let mid = (left+right)/2
+    for i in 1...n {
+        cnt += min(mid/i, n)
+    }
+    if cnt < k {
+        left = mid+1
+    }else {
+        ans = mid
+        right = mid-1
+    }
+}
+print(ans)
