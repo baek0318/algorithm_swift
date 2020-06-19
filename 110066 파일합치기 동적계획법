@@ -1,0 +1,68 @@
+import Foundation
+
+let T = Int(readLine()!)!
+var result = [Int]()
+
+for _ in 0..<T {
+    let k = Int(readLine()!)!
+    var arr = Array(repeating: 0, count: 505)
+    var sum = Array(repeating: 0, count: 505)
+    var dp = Array(repeating: Array(repeating: 0, count: 505), count: 505)
+    let input = readLine()!.split(separator: " ").map{Int($0)!}
+    for i in 1...k {
+        arr[i] = input[i-1]
+        sum[i] = sum[i-1]+input[i-1]
+    }
+    for d in 1..<k {
+        for x in 1...(k-d){
+            let y = x+d
+            dp[x][y] = Int.max
+            for mid in x...y{
+                dp[x][y] = min(dp[x][y],dp[x][mid]+dp[mid+1][y]+sum[y]-sum[x-1])
+            }
+        }
+    }
+    result.append(dp[1][k])
+}
+for i in result {print(i)}
+
+//재귀를 이용해서 푸는 방법 (feat 시간초과)
+/*
+let T = Int(readLine()!)!
+var result = [Int]()
+
+for _ in 0..<T {
+    let k = Int(readLine()!)!
+    var arr = Array(repeating: 0, count: 501)
+    var sum = Array(repeating: 0, count: 501)
+    var dp = Array(repeating: Array(repeating: 99999999, count: 501), count: 501)
+    let input = readLine()!.split(separator: " ").map{Int($0)!}
+    for i in 1...k {
+        arr[i] = input[i-1]
+        sum[i] = sum[i-1]+input[i-1]
+    }
+    
+    func divide(_ x : Int, _ y : Int) -> Int{
+        if dp[x][y] != 99999999{
+            return dp[x][y]
+        }
+        if x==y {
+            dp[x][y] = 0 //그냥 끝을 내는 조건 이라고 생각하면 된다
+            return dp[x][y]
+        }
+        if x+1==y {
+            dp[x][y] = arr[x]+arr[y]
+            return dp[x][y]
+        }
+        
+        for d in x..<y {
+            let temp = divide(x, d) + divide(d+1, y)
+            dp[x][y] = min(dp[x][y], temp)
+        }
+        dp[x][y] += sum[y] - sum[x-1]
+        return dp[x][y]
+    }
+    result.append(divide(1, k))
+}
+for i in result {print(i)}
+*/
