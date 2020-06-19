@@ -1,7 +1,5 @@
 import Foundation
 
-import Foundation
-
 let n = Int(readLine()!)!
 var arr = Array(repeating: Array(repeating: 0, count: 2), count: 504) //arr은 행렬을 담는 배열이다
 var dp = Array(repeating: Array(repeating: 0, count: 504), count: 504)
@@ -12,17 +10,19 @@ for i in 1...n {
     arr[i][1] = Int(input[1])!
 }
 
-//
+//d로 거리를 측정한다 행렬과 행렬사이
 for d in 1..<n {
     for x in 1...(n-d){
         let y = x+d
         dp[x][y] = Int.max
+        //행렬과 행렬사이를 나누는 mid라는 것을 작성하여서 분할을 하여주었다
         for mid in x...y{
             dp[x][y] = min(dp[x][y],dp[x][mid]+dp[mid+1][y]+arr[x][0]*arr[mid][1]*arr[y][1])
         }
     }
 }
 print(dp[1][n])
+
 
 //재귀로 작성 (시간초과)
 /*
