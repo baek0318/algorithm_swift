@@ -1,0 +1,57 @@
+import Foundation
+
+let mn = readLine()!.split(separator: " ").map{Int($0)!}
+var map = [[Int]]()
+let px = [0, 1, 0, -1]
+let py = [1, 0, -1, 0]
+var dp = Array(repeating: Array(repeating: 0, count: mn[1]+1), count: mn[0]+1)
+for _ in 0..<mn[0] {
+    map.append(readLine()!.split(separator: " ").map{Int($0)!})
+}
+
+func dfs(_ x : Int, _ y : Int) -> Int {
+    
+    if x == mn[0]-1 && y == mn[1]-1 {return 1}
+    if dp[x][y] != 0 {return dp[x][y]} // 이 부분이 핵심이라고 볼 수 있다 가던 길에 지나왔던 곳이면 더 이상 가지 않고 dp에 저장된 값을 리턴한다 그러므로써 시간 절약
+    for i in 0...3 {
+        let nx = x+px[i]
+        let ny = y+py[i]
+        if x+px[i]<mn[0] && y+py[i]<mn[1] && x+px[i] >= 0 && y+py[i] >= 0 && map[nx][ny] < map[x][y] {
+            dp[x][y] += dfs(nx, ny)
+        }
+    }
+    return dp[x][y]
+}
+print(dfs(0, 0))
+
+/*
+ struct Position {
+     var x : Int = 0
+     var y : Int = 0
+     var node : Int = 0
+ }
+ 
+func bfs(_ x : Int, _ y : Int){
+    var x = x
+    var y = y
+    queue.append(Position(x: x, y: y, node: map[x][y]))
+    dp[x][y] += 1
+    
+    while !queue.isEmpty {
+        
+        let value = queue.removeFirst()
+        x = value.x; y = value.y
+        dp[x][y] += 1
+        
+        for i in 0...3 {
+            if x+px[i]<m && y+py[i]<n && x+px[i] >= 0 && y+py[i] >= 0 && map[x+px[i]][y+py[i]] < value.node {
+                queue.append(Position(x: x+px[i],y: y+py[i],node: map[x+px[i]][y+py[i]]))
+            }
+        }
+    }
+    
+}
+
+bfs(0, 0)
+print(dp[m-1][n-1])
+*/
