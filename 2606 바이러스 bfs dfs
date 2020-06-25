@@ -1,0 +1,31 @@
+import Foundation
+
+let n = Int(readLine()!)!
+let c = Int(readLine()!)!
+var network = Array(repeating: Array(repeating: 0, count: n+1), count: n+1)
+var check = Array(repeating : false , count : n+1)
+var queue = [Int]()
+for _ in 0..<c {
+    let input = readLine()!.split(separator: " ").map{Int($0)!}
+    network[input[0]][input[1]] = 1
+}
+
+func bfs(_ start : Int) {
+    
+    queue.append(start)
+    
+    while !queue.isEmpty {
+        
+        let value = queue.removeFirst()
+        check[value] = true
+        
+        for i in 1...n {
+            if (network[i][value] == 1 || network[value][i]  == 1) && check[i] == false {
+                queue.append(i)
+            }
+        }
+        
+    }
+}
+bfs(1)
+print(check.filter{ $0 == true}.count-1)
