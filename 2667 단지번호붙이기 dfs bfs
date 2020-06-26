@@ -1,0 +1,46 @@
+import Foundation
+
+let input = Int(readLine()!)!
+
+var apt = Array(repeating: Array(repeating: 0, count: input), count: input)
+var result = [Int]()
+let px = [1, -1, 0, 0]
+let py = [0, 0, -1, 1]
+var cnt = 0
+
+for i in 0..<input {
+    var k = 0
+    let str = readLine()!
+    for j in str {
+        apt[i][k] = Int(String(j))!
+        k+=1
+    }
+}
+
+func dfs(_ x : Int, _ y : Int) {
+    
+    if apt[x][y] == 0 {return}
+    apt[x][y] = 0
+    cnt+=1
+    
+    for i in 0...3 {
+        let nx = x+px[i]
+        let ny = y+py[i]
+        if nx >= 0 && ny >= 0 && nx < input && ny < input && apt[nx][ny] == 1 {
+            dfs(nx, ny)
+        }
+    }
+}
+
+for i in 0..<input {
+    for j in 0..<input {
+        cnt = 0
+        dfs(i, j)
+        if cnt != 0 {result.append(cnt)}
+    }
+}
+print(result.count)
+result.sort()
+for i in result {
+    print(i)
+}
