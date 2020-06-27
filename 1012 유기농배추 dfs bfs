@@ -1,0 +1,52 @@
+import Foundation
+
+let t = Int(readLine()!)!
+var veg = [[Int]]()
+var cnt = 0
+var result = [Int]()
+let px = [1, -1, 0, 0]
+let py = [0, 0, -1, 1]
+var m = 0 //열
+var n = 0 //행
+var k = 0 //갯수
+
+func dfs(_ x : Int, _ y : Int){
+    
+    if veg[x][y] == 0 {return}
+    cnt += 1
+    veg[x][y] = 0
+    
+    for i in 0...3 {
+        let nx = x+px[i]
+        let ny = y+py[i]
+        if nx >= 0 && ny >= 0 && nx < n && ny < m && veg[nx][ny] != 0 {
+            dfs(nx, ny)
+        }
+    }
+}
+
+for _ in 0..<t {
+    let input = readLine()!.split(separator: " ").map{Int($0)!}
+    m = input[0] //열
+    n = input[1] //행
+    k = input[2] //갯수
+    var count = 0
+    veg = Array(repeating: Array(repeating: 0, count: m), count: n)
+    
+    for _ in 0..<k {
+        let num = readLine()!.split(separator: " ").map{Int($0)!}
+        veg[num[1]][num[0]] = 1
+    }
+    
+    for i in 0..<n {
+        for j in 0..<m {
+            cnt = 0
+            dfs(i,j)
+            if cnt != 0 {
+                count += 1
+            }
+        }
+    }
+    result.append(count)
+}
+for i in result {print(i)}
