@@ -8,15 +8,13 @@ struct Position {
 }
 
 let input = readLine()!.split(separator: " ").map{Int($0)!}
-let n = input[0] //행
-let m = input[1] //열
 let px = [1, -1, 0, 0]
 let py = [0, 0, -1, 1]
-var maze = Array(repeating: Array(repeating: 0, count: m), count:n)
+var maze = Array(repeating: Array(repeating: 0, count: 1001), count:1001)
 var queue = [Position]()
 var ans = Int.max
 
-for i in 0..<n {
+for i in 0..<input[0] {
     let put = readLine()!
     var j = 0
     for k in put {
@@ -25,32 +23,26 @@ for i in 0..<n {
     }
 }
 
-func bfs(_ x : Int, _ y : Int) {
+func bfs(_ x : Int, _ y : Int) -> Int {
     
-    var po = 0
     queue.append(Position(x: x-1, y: y-1, breaking: false, count: 0))
     
     while !queue.isEmpty {
         
-        let count = queue.count
-        
-        var value = queue[po]
-
+        var value = queue.removeFirst()
         
         maze[value.x][value.y] = 2
         value.count += 1
         
-        if value.x == n-1 && value.y == m-1 {
-            if ans > value.count {
-                ans = value.count
-            }
+        if value.x == input[0]-1 && value.y == input[1]-1 {
+            return value.count
         }
         
         for i in 0...3 {
             let nx = value.x+px[i]
             let ny = value.y+py[i]
             if value.breaking == false {
-                if nx >= 0 && ny >= 0 && nx < n && ny < m && (maze[nx][ny] == 0 || maze[nx][ny] == 1) {
+                if nx >= 0 && ny >= 0 && nx < input[0] && ny < input[1] && (maze[nx][ny] == 0 || maze[nx][ny] == 1) {
                     if maze[nx][ny] == 1 {
                         queue.append(Position(x: nx, y: ny, breaking: true, count: value.count))
                     }else {
@@ -59,24 +51,17 @@ func bfs(_ x : Int, _ y : Int) {
                     
                 }
             }else {
-                if nx >= 0 && ny >= 0 && nx < n && ny < m && maze[nx][ny] == 0 {
+                if nx >= 0 && ny >= 0 && nx < input[0] && ny < input[1] && maze[nx][ny] == 0 {
                     queue.append(Position(x: nx, y: ny, breaking: value.breaking, count: value.count))
                     
                 }
             }
         }
-        po+=1
-        if po == count {
-            queue.removeSubrange(0..<po)
-            po=0
-        }
+        
     }
+    return -1
 }
 
-bfs(1, 1)
-if ans == Int.max {
-    print(-1)
-}else {
-    print(ans)
-}
+print(bfs(1, 1))
+
 
