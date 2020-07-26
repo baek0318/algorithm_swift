@@ -1,0 +1,61 @@
+import Foundation
+
+struct Position {
+    var pos : Int
+    var count : Int
+}
+
+var queue : [Position] = [Position]()
+var visited = Array(repeating: false, count: 100003)
+var result : Int = 0
+
+func check(subin : Int, sister : Int) -> Bool {
+    if subin == sister {
+        return true
+    }else {
+        return false
+    }
+}
+
+func bfs(_ x : Position, _ sisterPos : Int) {
+    
+    queue.append(x)
+    
+    while(!queue.isEmpty) {
+        
+        let value = queue.removeFirst()
+        let position = value.pos
+        let count = value.count
+        
+        visited[position] = true
+        
+        if check(subin: position, sister: sisterPos) {
+            result = count
+            break
+        }
+        
+        if position > 0 && !visited[position-1] {
+            queue.append(Position(pos: position-1, count: count+1))
+        }
+        if position < 100000 && !visited[position+1] {
+            queue.append(Position(pos: position+1, count: count+1))
+        }
+        if position*2 <= 100000 && !visited[position*2] {
+            queue.append(Position(pos: position*2, count: count+1))
+        }
+    }
+}
+
+func solution(_ subin : Int, sister : Int) -> Int {
+    
+    let subinPos = Position(pos: subin, count: 0)
+    
+    bfs(subinPos, sister)
+    
+    let ans = result
+    
+    return ans
+}
+
+let input = readLine()!.split(separator: " ").map{Int($0)!}
+print(solution(input[0], sister: input[1]))
