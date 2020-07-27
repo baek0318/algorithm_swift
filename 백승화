@@ -1,0 +1,65 @@
+import Foundation
+
+struct Position {
+    var pos : Int
+    var weight : Int
+    init(_ pos : Int, _ weight : Int) {
+        self.pos = pos
+        self.weight = weight
+    }
+}
+
+let INF = Int.max
+var path = Array(repeating: INF, count: 20001)
+var graph = Array(repeating: Array(repeating: 0, count: 20001), count: 20001)
+var visited = Array(repeating: false, count: 20001)
+var queue = [Position]()
+
+func bfs(_ x : Int) {
+    
+    queue.append(Position(x, 0))
+    
+    while (!queue.isEmpty) {
+        
+        let value = queue.removeFirst()
+        let pos = value.pos
+        let weight = value.weight
+        visited[pos] = true
+        
+        for i in 1...(graph.count-1) {
+            if visited[i] == false && graph[pos][i] != 0 {
+                queue.append(Position(i, weight+graph[pos][i]))
+            }
+            else if visited[i] == true {
+                path[i] = min(path[i], weight+graph[pos][i])
+            }
+        }
+        
+    }
+}
+
+func solution(_ start : Int) -> [Int] {
+    
+    bfs(start)
+    
+    return path
+}
+
+let input = readLine()!.split(separator: " ").map{Int($0)!}
+let k = Int(readLine()!)!
+
+for _ in 0..<input[1] {
+    let link = readLine()!.split(separator: " ").map{Int($0)!}
+    graph[link[0]][link[1]] = link[2]
+}
+
+let result = solution(k)
+
+for i in 1...input[0] {
+    if result[i] == INF {
+        print("INF")
+    }
+    else {
+        print(result[i])
+    }
+}
