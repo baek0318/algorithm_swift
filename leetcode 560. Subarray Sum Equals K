@@ -1,0 +1,27 @@
+class Solution {
+    func subarraySum(_ nums: [Int], _ k: Int) -> Int {
+        var ans = 0
+
+        var sumArr = [Int]()
+ 
+        var all = nums.reduce(0){ (a1, a2) in
+                                    let mid = a1 + a2
+                                    if mid == k {
+                                        ans += 1
+                                    }
+                                    sumArr.append(mid)
+                                    return mid
+                                }
+        
+        for i in 0..<nums.count {
+            for j in (i+1)..<nums.count {
+                let re = sumArr[j] - sumArr[i]
+                if re == k {
+                    ans += 1
+                }
+            }
+        }
+        
+        return ans
+    }
+}
